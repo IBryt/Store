@@ -31,6 +31,15 @@ public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEnti
         _dbSet.Update(entity);
     }
 
+    public async Task DeleteByIdAsync(int id)
+    {
+        var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+        if (entity != null)
+        {
+            Delete(entity);
+        }
+    }
+
     public void Delete(TEntity entity)
     {
         if (_dbContext.Entry(entity).State == EntityState.Detached)
