@@ -11,16 +11,17 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
 {
     public ProductRepository(AppDbContext dbContext) : base(dbContext) { }
 
-    public async Task<int> GetCount()
+    public async Task<int> GetCountAsync()
     {
         return await _dbSet.CountAsync();
     }
 
-    public async Task<IEnumerable<Product>> GetProductsAsync(ProductPagingOptions options)
+    public async Task<IEnumerable<Product>> GetProductsWithDetailsAsync(ProductPagingOptions options)
     {
         return await _dbSet
                 .Skip((options.Page - 1) * options.PageSize)
                 .Take(options.PageSize)
+                .Include(p => p.Category)
                 .ToListAsync();
     }
 }

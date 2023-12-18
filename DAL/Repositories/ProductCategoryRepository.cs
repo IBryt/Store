@@ -2,6 +2,7 @@
 using IgorBryt.Store.DAL.Entities;
 using IgorBryt.Store.DAL.Interfaces;
 using IgorBryt.Store.DAL.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
 
 namespace IgorBryt.Store.DAL.Repositories;
 
@@ -9,8 +10,8 @@ public class ProductCategoryRepository : BaseRepository<ProductCategory>, IProdu
 {
     public ProductCategoryRepository(AppDbContext dbContext) : base(dbContext) { }
 
-    public Task<IEnumerable<ProductCategory>> GetAllAsync()
+    public async Task<IEnumerable<ProductCategory>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _dbSet.ToListAsync();
     }
 }
