@@ -13,9 +13,8 @@ public class ProductCategoryService : BaseCrud<ProductCategoryModel, ProductCate
     public ProductCategoryService(
         IUnitOfWork unitOfWork,
         IMapper mapper,
-        IValidator<ProductCategoryModel> validator,
-        IRepository<ProductCategory> repository)
-        : base(unitOfWork, mapper, validator, repository) { }
+        IValidator<ProductCategoryModel> validator)
+        : base(unitOfWork, mapper, validator, unitOfWork.ProductCategoryRepository) { }
 
     public async Task<IEnumerable<ProductCategoryModel>> GetAllAsync()
     {
