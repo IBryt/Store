@@ -6,6 +6,5 @@ namespace IgorBryt.Store.BLL.Interfaces;
 public interface IProductService : ICrud<ProductModel>
 {
     Task<int> GetCountAsync();
-
-    Task<IEnumerable<ProductModel>> GetProductsAsync(ProductPagingOptions options);
+    Task<IEnumerable<ProductModel>> GetProductsAsync(int page, FilterProductModel filter);
 }
