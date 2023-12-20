@@ -1,11 +1,11 @@
-<ng-container class="col-md-4">
+
     <div class="product-card">
-        <a routerLink="/product/1">
-        <img src="https://via.placeholder.com/300" class="card-img-top" alt="Товар">
+        <a routerLink="/products/{{product.id}}">
+        <img src="https://via.placeholder.com/300" class="card-img-top" alt={{product.productName}}>
         </a>
         <div class="card-body">
-            <h5 class="card-title">Название товара 2</h5>
-            <p class="card-text">Цена: $29.99</p>
+            <h5 class="card-title">{{product.productName}}</h5>
+            <p class="card-text">{{product.price | priceFormat}}</p>
         </div>
     </div>
-</ng-container>
+

@@ -1,0 +1,14 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li *ngIf="getCurrentPage() > 1" class="page-item">
+        <a class="page-link" (click)="prevPage()">&lt;</a>
+      </li>
+      <li class="page-item" *ngFor="let page of pages" [ngClass]="{'active': isCurrentPage(page)}">
+        <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" *ngIf="getCurrentPage() < getTotalPages()">
+        <a class="page-link" (click)="nextPage()">&gt;</a>
+      </li>
+    </ul>
+  </nav>
+  

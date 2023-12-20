@@ -7,9 +7,9 @@ import { ProductCatalogPageComponent } from './pages/product-catalog-page/produc
 const routes: Routes = [
   {
     path: '', component: MainLayoutComponent, children: [
-      { path: '', redirectTo: '/products/1', pathMatch: 'full' },
-      { path: 'products/:page', component: ProductCatalogPageComponent },
-      { path: 'product/:id', component: ProductPageComponent }
+      { path: '', redirectTo: '/products', pathMatch: 'full' },
+      { path: 'products', component: ProductCatalogPageComponent },
+      { path: 'products/:id', component: ProductPageComponent }
     ]
   }
 ];
