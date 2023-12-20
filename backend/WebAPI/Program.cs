@@ -40,6 +40,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowOrigin");
+
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
