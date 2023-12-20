@@ -24,12 +24,12 @@ public Task<int> GetCountAsync()
     return _unitOfWork.ProductRepository.GetCountAsync();
 }
 
-    public async Task<IEnumerable<ProductModel>> GetProductsAsync(int page, FilterProductModel filter)
+    public async Task<IEnumerable<ProductModel>> GetProductsAsync(FilterProductModel filter)
     {
         var options = new ProductPagingOptions
         {
             PageSize = PageSize,
-            Page = page,
+            Page = filter.Page ?? 1,
         };
         var products = await _unitOfWork.ProductRepository.GetProductsWithDetailsAsync(options);
         return products

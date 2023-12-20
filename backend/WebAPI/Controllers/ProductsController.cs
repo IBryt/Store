@@ -18,10 +18,10 @@ public class ProductsController : Controller
         _productService = productService;
     }
 
-    [HttpGet("{page}")]
-    public async Task<ActionResult<IEnumerable<ProductModel>>> GetProducts([FromQuery] FilterProductModel filter, int page = 1)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProductModel>>> GetProducts([FromQuery] FilterProductModel filter)
     {
-        var categories = await _productService.GetProductsAsync(page, filter);
+        var categories = await _productService.GetProductsAsync(filter);
         return Ok(categories);
     }
 }

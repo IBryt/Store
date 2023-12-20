@@ -1,0 +1,7 @@
+.navbar-light .navbar-nav .nav-link {
+    color: #212529 !important;
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-color: #212529;
+}

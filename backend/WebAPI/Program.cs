@@ -25,6 +25,12 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder => builder.WithOrigins("http://localhost:4200"));
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -33,6 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowOrigin");
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();

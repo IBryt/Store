@@ -1,0 +1,11 @@
+.product-card {
+    background-color: #333;
+    color: #fff;
+    margin: 10px;
+    text-align: center;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+}
