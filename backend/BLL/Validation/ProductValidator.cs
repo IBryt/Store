@@ -9,6 +9,10 @@ public class ProductValidator : AbstractValidator<ProductModel>
     {
         RuleFor(x => x.ProductName)
             .NotEmpty()
+            .WithMessage($"The property \"{nameof(ProductModel.Description)}\" cannot be empty");
+
+        RuleFor(x => x.ProductName)
+            .NotEmpty()
             .WithMessage($"The property \"{nameof(ProductModel.ProductName)}\" cannot be empty");
 
         RuleFor(x => x.Price)
