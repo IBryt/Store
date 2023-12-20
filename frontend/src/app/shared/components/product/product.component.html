@@ -1,7 +1,8 @@
 
     <div class="product-card">
         <a routerLink="/products/{{product.id}}">
-        <img src="https://via.placeholder.com/300" class="card-img-top" alt={{product.productName}}>
+            
+            <img src="{{getImageUrl()}}" class="card-img-top" alt={{product.productName}}>
         </a>
         <div class="card-body">
             <h5 class="card-title">{{product.productName}}</h5>
