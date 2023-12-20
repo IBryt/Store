@@ -5,11 +5,16 @@ namespace IgorBryt.Store.DAL.Data;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+
+    public AppDbContext()
     {
-        Products = Set<Product>();
-        ProductCategories = Set<ProductCategory>();
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Store;Trusted_Connection=True;");
+    }
+
 
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
