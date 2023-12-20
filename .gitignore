@@ -343,11 +343,8 @@ healthchecksdb
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
 frontend/src/.prettierrc.json
-frontend/.vscode/settings.json
-frontend/.vscode/launch.json
 frontend/test.rest
 frontend/yarn.lock
-frontend/package.json
 frontend/.angular/cache/*/**
 
 .vscode/
