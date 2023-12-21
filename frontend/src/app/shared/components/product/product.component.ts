@@ -13,7 +13,7 @@ export class ProductComponent {
   getImageUrl() {
     if(!this.product.imageUrl)
       return 'https://via.placeholder.com/300'
-    return environment.baseUrl + '/images/' + this.product.imageUrl
+    return environment.baseUrl + '/productImages/' + this.product.imageUrl
   }
 
 }
