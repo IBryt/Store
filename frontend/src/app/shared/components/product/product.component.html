@@ -1,12 +1,11 @@
-
-    <div class="product-card">
+<div class="product-card">
+    <div class="img-card d-flex align-items-center justify-content-center">
         <a routerLink="/products/{{product.id}}">
-            
-            <img src="{{getImageUrl()}}" class="card-img-top" alt={{product.productName}}>
+            <img src="{{getImageUrl()}}" class="card-img-top img-fluid" alt="{{product.productName}}">
         </a>
-        <div class="card-body">
-            <h5 class="card-title">{{product.productName}}</h5>
-            <p class="card-text">{{product.price | priceFormat}}</p>
-        </div>
     </div>
-
+    <div class="card-body">
+        <h6 class="card-title product-card-title">{{product.productName}}</h6>
+        <p class="card-text">{{product.price | priceFormat}}</p>
+    </div>
+</div>

@@ -9,9 +9,9 @@ export class PriceFormatPipe implements PipeTransform {
       return '';
     }
 
-    const formattedPrice = new Intl.NumberFormat('en-US', {
+    const formattedPrice = new Intl.NumberFormat('uk-UA', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'UAH',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     }).format(value);
