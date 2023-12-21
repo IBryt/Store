@@ -1,7 +1,7 @@
-﻿using IgorBryt.Store.DAL.Data.Common.Abstract;
+﻿namespace IgorBryt.Store.DAL.Data.Common;
 
-namespace IgorBryt.Store.DAL.Data.Common;
-
-public class ProductPagingOptions : PagingOptions
+public class ProductPagingOptions
 {
+    public int? Page { get; set; }
+    public int? CategoryId { get; set; }
 }

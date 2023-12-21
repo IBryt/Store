@@ -17,4 +17,15 @@ export class ProductService {
     const params = new HttpParams().set('page', page.toString());
     return this.http.get<Product[]>(url, { params });
   }
+
+  getPagesCount():Observable<number>
+  {
+    const url = `${this.baseUrl}/api/products/pagescount`;
+    return this.http.get<number>(url, undefined);
+  }
+
+  getProductById(id: number): Observable<Product> {
+    const url = `${this.baseUrl}/api/products/${id}`;
+    return this.http.get<Product>(url);
+  }
 }
