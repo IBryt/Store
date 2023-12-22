@@ -12,8 +12,8 @@ import { ProductService } from 'src/app/services/products.service';
 })
 export class ProductPageComponent implements OnInit, OnDestroy {
 
-  product: Product = {} as Product;;
-  private subscription: Subscription = new Subscription();
+  product: Product = {} as Product;
+  private subProductService: Subscription = new Subscription();
 
   constructor(
     private productService: ProductService,
@@ -23,7 +23,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       const productId = params['id'];
-      this.subscription.add(
+      this.subProductService.add(
         this.productService.getProductById(productId).subscribe((p) => {
           this.product = p;
         })
@@ -32,8 +32,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.subProductService) {
+      this.subProductService.unsubscribe();
     }
   }
 

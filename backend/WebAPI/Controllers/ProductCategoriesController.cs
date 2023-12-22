@@ -6,11 +6,11 @@ namespace IgorBryt.Store.WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductCategoryController : Controller
+public class ProductCategoriesController : Controller
 {
     private readonly IProductCategoryService _productCategoryService;
 
-    public ProductCategoryController(IProductCategoryService productCategoryService)
+    public ProductCategoriesController(IProductCategoryService productCategoryService)
     {
         _productCategoryService = productCategoryService;
     }
