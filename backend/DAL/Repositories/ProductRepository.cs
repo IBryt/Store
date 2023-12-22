@@ -4,7 +4,6 @@ using IgorBryt.Store.DAL.Entities;
 using IgorBryt.Store.DAL.Interfaces;
 using IgorBryt.Store.DAL.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace IgorBryt.Store.DAL.Repositories;
 
@@ -19,12 +18,16 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
             ? await _dbSet.CountAsync()
             : await _dbSet.CountAsync(x => x.ProductCategoryId == options.CategoryId);
 
-        return count / PageSize + 1;
+        return (count - 1) / PageSize + 1;
     }
 
     public async Task<IEnumerable<Product>> GetProductsWithDetailsAsync(ProductPagingOptions options)
     {
-        return await _dbSet
+        var products = options.CategoryId == null
+            ? _dbSet
+            : _dbSet.Where(p => p.ProductCategoryId == options.CategoryId);
+
+        return await products
                 .Skip(((options.Page ?? 1) - 1) * PageSize)
                 .Take(PageSize)
                 .Include(p => p.Category)

@@ -16,13 +16,12 @@ export class ProductCatalogPageComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.subscription.add(
       this.route.queryParams.subscribe((params: Params) => {
-        const page = params['Page'] !== undefined ? params['Page'] : 1;
-        this.loadData(page);
+        this.loadData(params);
       })
     );
   }
@@ -33,10 +32,11 @@ export class ProductCatalogPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private loadData(page: number): void {
+  private loadData(params: Params): void {
     this.subscription.add(
-      this.productService.getProducts(page).subscribe((p) => {
+      this.productService.getProducts(params).subscribe((p) => {
         this.products = p;
+        console.log(p);
       })
     );
   }

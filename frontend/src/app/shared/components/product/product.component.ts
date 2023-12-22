@@ -11,9 +11,8 @@ export class ProductComponent {
   @Input() product: Product = {} as Product;
 
   getImageUrl() {
-    if(!this.product.imageUrl)
+    if (!this.product.imageUrl)
       return 'https://via.placeholder.com/300'
     return environment.baseUrl + '/productImages/' + this.product.imageUrl
   }
-
 }

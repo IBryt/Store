@@ -18,11 +18,11 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    outline: none; /* Убираем стандартное выделение фокуса */
+    outline: none;
 }
 
 .product-card a:focus {
-    outline: none; /* Убираем стандартное выделение фокуса */
+    outline: none;
 }
 
 .product-card img {

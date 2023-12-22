@@ -4,6 +4,7 @@
         {{ selectedValue?.categoryName || 'Select category' }}
     </button>
     <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" *ngFor="let item of categories" (click)="selectCategory(item)">{{ item.categoryName}}</a>
+        <a class="dropdown-item" *ngFor="let item of categories" (click)="selectCategory(item)">{{
+            item.categoryName}}</a>
     </div>
 </div>

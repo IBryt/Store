@@ -10,7 +10,7 @@ import { ProductService } from 'src/app/services/products.service';
 })
 export class PaginationComponent implements OnInit, OnDestroy {
   private currentPage: number = 1;
-  private totalPages: number = 10;
+  private totalPages: number = 1;
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -21,8 +21,11 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.productService.getPagesCount()
-        .subscribe(c => { this.totalPages = c })
+      this.route.queryParams.subscribe((params: Params) => {
+        this.productService.getPagesCount(params)
+          .subscribe(c => { this.totalPages = c })
+      })
+
     );
   }
 
@@ -31,7 +34,6 @@ export class PaginationComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
 
   get pages(): number[] {
     const totalButtonsToShow = 5;
@@ -90,6 +92,12 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   private navigateToPage(page: number): void {
     this.currentPage = page;
-    this.router.navigate(['/products'], { queryParams: { Page: page } });
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        Page: page
+      },
+      queryParamsHandling: 'merge',
+    });
   }
 }

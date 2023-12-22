@@ -5,15 +5,15 @@ import { environment } from '../environments/environment';
 import { Category } from '../models/category/category';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CategoryService {
-  private baseUrl = environment.baseUrl;
+    private baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-  getCategories(): Observable<Category[]> {
-    const url = `${this.baseUrl}/api/productcategories`;
-    return this.http.get<Category[]>(url);
-  }
+    getCategories(): Observable<Category[]> {
+        const url = `${this.baseUrl}/api/productcategories`;
+        return this.http.get<Category[]>(url);
+    }
 }
