@@ -347,4 +347,5 @@ frontend/test.rest
 frontend/yarn.lock
 frontend/.angular/cache/*/**
 
-.vscode/
+/backend/WebAPI/wwwroot/productImages/*
+!/backend/WebAPI/wwwroot/productImages/NoContent.png

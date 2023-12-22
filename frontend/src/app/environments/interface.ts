@@ -1,5 +1,4 @@
 export interface Environment {
-    production: boolean,
-    baseUrl: string,
-  }
-  
+  production: boolean,
+  baseUrl: string,
+}

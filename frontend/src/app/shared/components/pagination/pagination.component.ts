@@ -1,21 +1,44 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { ProductService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnInit, OnDestroy {
   private currentPage: number = 1;
-  private totalPages: number = 10;
+  private totalPages: number = 1;
+  private subscription: Subscription = new Subscription();
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private productService: ProductService,
+  ) { }
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.route.queryParams.subscribe((params: Params) => {
+        this.productService.getPagesCount(params)
+          .subscribe(c => { this.totalPages = c })
+      })
+
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   get pages(): number[] {
     const totalButtonsToShow = 5;
     const pages = [];
-  
+
     if (this.totalPages <= totalButtonsToShow) {
       for (let i = 1; i <= this.totalPages; i++) {
         pages.push(i);
@@ -40,7 +63,7 @@ export class PaginationComponent {
   getCurrentPage() {
     return this.currentPage;
   }
-  
+
   getTotalPages() {
     return this.totalPages;
   }
@@ -69,6 +92,12 @@ export class PaginationComponent {
 
   private navigateToPage(page: number): void {
     this.currentPage = page;
-    this.router.navigate(['/products'], { queryParams: { Page: page } });
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        Page: page
+      },
+      queryParamsHandling: 'merge',
+    });
   }
 }

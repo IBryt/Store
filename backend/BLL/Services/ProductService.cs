@@ -11,29 +11,34 @@ namespace IgorBryt.Store.BLL.Services;
 
 public class ProductService : BaseCrud<ProductModel, Product>, IProductService
 {
-private const int PageSize = 12;
-
 public ProductService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
     IValidator<ProductModel> validator)
     : base(unitOfWork, mapper, validator, unitOfWork.ProductRepository) { }
 
-public Task<int> GetCountAsync()
+public Task<int> GetCountAsync(FilterProductModel filter)
 {
-    return _unitOfWork.ProductRepository.GetCountAsync();
+        var options = _mapper.Map<ProductPagingOptions>(filter);
+        return _unitOfWork.ProductRepository.GetCountAsync(options);
 }
 
     public async Task<IEnumerable<ProductModel>> GetProductsAsync(FilterProductModel filter)
     {
-        var options = new ProductPagingOptions
-        {
-            PageSize = PageSize,
-            Page = filter.Page ?? 1,
-        };
+        var options = _mapper.Map<ProductPagingOptions>(filter);
         var products = await _unitOfWork.ProductRepository.GetProductsWithDetailsAsync(options);
         return products
             .Select(x => _mapper.Map<ProductModel>(x))
             .AsEnumerable();
+    }
+
+    public async Task<ProductModel?> GetProductWithDetailsByIdAsync(int id)
+    {
+        var entity = await _unitOfWork.ProductRepository.GetProductWithDetailsByIdAsync(id);
+        if (entity == null)
+        {
+            throw new StoreException($"The object {typeof(Product)} cannot be null");
+        }
+        return _mapper.Map<ProductModel>(entity);
     }
 }

@@ -1,11 +1,9 @@
-
-    <div class="product-card">
-        <a routerLink="/products/{{product.id}}">
-        <img src="https://via.placeholder.com/300" class="card-img-top" alt={{product.productName}}>
-        </a>
-        <div class="card-body">
-            <h5 class="card-title">{{product.productName}}</h5>
-            <p class="card-text">{{product.price | priceFormat}}</p>
-        </div>
+<div routerLink="/products/{{product.id}}" class="product-card">
+    <div class="img-card d-flex align-items-center justify-content-center">
+        <img src="{{getImageUrl()}}" class="card-img-top img-fluid" alt="{{product.productName}}">
     </div>
-
+    <div class="card-body">
+        <h6 class="card-title product-card-title">{{product.productName}}</h6>
+        <p class="card-text">{{product.price | priceFormat}}</p>
+    </div>
+</div>

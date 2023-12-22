@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product/product';
 import { environment } from '../environments/environment';
+import { Params } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,32 @@ import { environment } from '../environments/environment';
 export class ProductService {
   private baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+  ) { }
 
-  getProducts(page: number): Observable<Product[]> {
+  getProducts(params: Params): Observable<Product[]> {
     const url = `${this.baseUrl}/api/products`;
-    const params = new HttpParams().set('page', page.toString());
+    this.removeUndefinedParams(params);
     return this.http.get<Product[]>(url, { params });
+  }
+
+  getPagesCount(params: Params): Observable<number> {
+    const url = `${this.baseUrl}/api/products/pagescount`;
+    this.removeUndefinedParams(params);
+    return this.http.get<number>(url, { params });
+  }
+
+  getProductById(id: number): Observable<Product> {
+    const url = `${this.baseUrl}/api/products/${id}`;
+    return this.http.get<Product>(url);
+  }
+
+  private removeUndefinedParams(obj: Params) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key) && obj[key] === undefined) {
+        delete obj[key];
+      }
+    }
   }
 }
