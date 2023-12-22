@@ -24,5 +24,18 @@ public class ProductsController : Controller
         var categories = await _productService.GetProductsAsync(filter);
         return Ok(categories);
     }
-}
 
+    [HttpGet("pagesCount")]
+    public async Task<IActionResult> GetPagesCount([FromQuery] FilterProductModel filter)
+    {
+        var count = await _productService.GetCountAsync(filter);
+        return Ok(count);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> getProductById(int id)
+    {
+        var product = await _productService.GetProductWithDetailsByIdAsync(id);
+        return Ok(product);
+    }
+}

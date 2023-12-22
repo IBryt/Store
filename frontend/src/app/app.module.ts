@@ -12,6 +12,8 @@ import { PriceFormatPipe } from './shared/pipes/price-format.pipe';
 import { PaginationComponent } from './shared/components/pagination/pagination.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { FilterComponent } from './shared/components/filter/filter.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,12 +25,14 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
     PriceFormatPipe,
     PaginationComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

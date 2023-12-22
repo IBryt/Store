@@ -1,1 +1,8 @@
-product page 
+<div class="card">
+    <img [src]="getImageUrl()" class="card-img-top image" alt="{{ product.productName }}" >
+    <div class="card-body">
+      <h5 class="card-title">{{ product.productName }}</h5>
+      <p class="card-text">{{ product.description }}</p>
+      <p class="card-text">Price: {{ product.price }} UAH</p>
+    </div>
+  </div>
