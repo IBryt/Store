@@ -28,7 +28,7 @@ public class AuthManagerController : Controller
 
     [HttpPost]
     [Route("Register")]
-    public async Task<IActionResult> Register([FromBody] UserRegistrationModel req)
+    public async Task<IActionResult> Register([FromBody] UserRegistrationRequestModel req)
     {
         if (!ModelState.IsValid)
         { 
@@ -54,10 +54,40 @@ public class AuthManagerController : Controller
         }
 
         var token = GenerateJwtToken(newUser);
-        return Ok(new 
+        return Ok(new RegistrationRequestResponseModel
         { 
             Result = true,
             Token = token
+        });
+    }
+
+    [HttpPost]
+    [Route("Login")]
+    public async Task<IActionResult> Login([FromBody] UserLoginRequestModel req)
+    { 
+        if (!ModelState.IsValid) 
+        {
+            return BadRequest("Invalid request payload");
+        }
+
+        var existingUser = await _userManager.FindByEmailAsync(req.Email);
+
+        if (existingUser == null)
+        {
+            return BadRequest("Invalid authentication");
+        }
+
+        var isPasswordValid = await _userManager.CheckPasswordAsync(existingUser, req.Password);
+        if (!isPasswordValid)
+        {
+            return BadRequest("Invalid authentication");
+        }
+
+        var token = GenerateJwtToken(existingUser);
+        return Ok(new LoginRequestResponseModel
+        {
+            Token = token,
+            Result = true
         });
     }
 

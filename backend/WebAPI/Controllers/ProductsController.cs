@@ -1,12 +1,15 @@
 ﻿using FluentValidation;
 using IgorBryt.Store.BLL.Interfaces;
 using IgorBryt.Store.BLL.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgorBryt.Store.WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ProductsController : Controller
 {
     private readonly IValidator<ProductModel> _productValidator;

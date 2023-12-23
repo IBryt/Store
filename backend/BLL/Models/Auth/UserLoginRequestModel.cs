@@ -2,10 +2,8 @@
 
 namespace IgorBryt.Store.BLL.Models.Auth;
 
-public class UserRegistrationModel
+public class UserLoginRequestModel
 {
-    [Required]
-    public string Name { get; set; } = string.Empty;
     [Required]
     public string Email { get; set; } = string.Empty;
     [Required]
