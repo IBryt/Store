@@ -20,10 +20,7 @@ export class AuthenticationService {
   ) { }
 
   register(user: Register): Observable<JwtAuth> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    return this.http.post<JwtAuth>(`${environment.baseUrl}${this.registerUrl}`, user, { headers });
+    return this.http.post<JwtAuth>(`${environment.baseUrl}${this.registerUrl}`, user);
   }
 
   login(user: Login): Observable<JwtAuth> {

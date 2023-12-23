@@ -18,17 +18,35 @@ export class LoginComponent {
   constructor(
     private authService: AuthenticationService
   ) { 
+    this.login.email = "lewis1@gmail.com";
+    this.login.password = "P@ssword123!";
   }
 
   Login(login:Login )
   {
     this.authService.login(login).subscribe((jwt) => {
-      localStorage.setItem('jwtToken', this.jwt.token);
+      
+      localStorage.setItem('jwtToken', jwt.token);
+      const res = this.decodeJwt(jwt.token);
+      console.log(res)
     }, timeout)
   }
 
   Register(register:Register )
   {
     this.authService.register(register).subscribe()
+  }
+
+  private decodeJwt(token: string): any {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+
+    return JSON.parse(jsonPayload);
   }
 }

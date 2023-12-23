@@ -100,8 +100,8 @@ public class AuthManagerController : Controller
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim("Id", user.Id),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }),
             Expires = DateTime.UtcNow.AddHours(4),
