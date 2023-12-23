@@ -1,0 +1,11 @@
+<div class="container">
+    <h2>Register</h2>
+    <div>name: <input [(ngModel)]="register.name" /></div>
+    <div>email: <input [(ngModel)]="register.email" /></div>
+    <div>password: <input [(ngModel)]="register.password" /></div>
+    <button (click)="Register(register)">Register</button>
+    <h2>login</h2>
+    <div>email: <input [(ngModel)]="login.email" /></div>
+    <div>password: <input [(ngModel)]="login.password" /></div>
+    <button (click)="Login(login)">Login</button>
+</div>

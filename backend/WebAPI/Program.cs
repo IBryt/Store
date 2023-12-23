@@ -25,7 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-{ 
+{
     options.SignIn.RequireConfirmedPhoneNumber = false;
 })
 .AddEntityFrameworkStores<AppIdentityDbContext>();
@@ -44,8 +44,10 @@ builder.Services.AddDbContext<AppIdentityDbContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowOrigin",
-        builder => builder.WithOrigins("http://localhost:4200"));
+    options.AddPolicy("FrontEnd",
+        policy => policy.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 
 builder.Services.AddAuthentication(options =>
@@ -86,14 +88,14 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.UseCors("AllowOrigin");
-
 app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("FrontEnd");
 
 app.MapControllers();
 app.Run();
