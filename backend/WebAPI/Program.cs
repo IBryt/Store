@@ -8,13 +8,27 @@ using IgorBryt.Store.BLL.Validation;
 using IgorBryt.Store.DAL.Data;
 using IgorBryt.Store.DAL.Interfaces;
 using IgorBryt.Store.DAL.Repositories;
+using IgorBryt.Store.WebAPI.Configurations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
+builder.Services.AddSingleton<JwtConfig>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{ 
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+})
+.AddEntityFrameworkStores<AppIdentityDbContext>();
 
 AddServices(builder.Services);
 AddRepositories(builder.Services);
@@ -25,10 +39,34 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString")));
 
+builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString")));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowOrigin",
         builder => builder.WithOrigins("http://localhost:4200"));
+});
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(jwt =>
+{
+    var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
+    jwt.SaveToken = true;
+    jwt.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        RequireExpirationTime = false,
+        ValidateLifetime = false,
+    };
 });
 
 var app = builder.Build();
@@ -42,6 +80,9 @@ if (app.Environment.IsDevelopment())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         dbContext.Database.Migrate();
+
+        var dbIdentityContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+        dbIdentityContext.Database.Migrate();
     }
 }
 
@@ -50,6 +91,10 @@ app.UseCors("AllowOrigin");
 app.UseStaticFiles();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 app.Run();
 
