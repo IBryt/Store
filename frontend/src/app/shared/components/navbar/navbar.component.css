@@ -5,3 +5,14 @@
 .navbar-light .navbar-toggler-icon {
     background-color: #5a6268;
 }
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item {
+    height:30px;
+    display: flex;
+    align-items: center;
+}
