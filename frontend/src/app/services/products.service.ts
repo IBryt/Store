@@ -17,13 +17,13 @@ export class ProductService {
 
   getProducts(params: Params): Observable<Product[]> {
     const url = `${this.baseUrl}/api/products`;
-    this.removeUndefinedParams(params);
+   // this.removeUndefinedParams(params);
     return this.http.get<Product[]>(url, { params });
   }
 
   getPagesCount(params: Params): Observable<number> {
     const url = `${this.baseUrl}/api/products/pagescount`;
-    this.removeUndefinedParams(params);
+   // this.removeUndefinedParams(params);
     return this.http.get<number>(url, { params });
   }
 

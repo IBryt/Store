@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
 import { ProductPageComponent } from './pages/product-page/product-page.component';
 import { ProductCatalogPageComponent } from './pages/product-catalog-page/product-catalog-page.component';
-import { LoginComponent } from './shared/components/login/login.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
 
 const routes: Routes = [
   {
@@ -11,7 +12,8 @@ const routes: Routes = [
       { path: '', redirectTo: '/products', pathMatch: 'full' },
       { path: 'products', component: ProductCatalogPageComponent },
       { path: 'products/:id', component: ProductPageComponent },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginPageComponent },
+      { path: 'registration', component: RegistrationPageComponent },
     ]
   }
 ];

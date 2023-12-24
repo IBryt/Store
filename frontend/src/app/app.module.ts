@@ -13,9 +13,10 @@ import { PaginationComponent } from './shared/components/pagination/pagination.c
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FilterComponent } from './shared/components/filter/filter.component';
-import { FormsModule } from '@angular/forms';
-import { LoginComponent } from './shared/components/login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
 
 @NgModule({
   declarations: [
@@ -29,13 +30,15 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
     FooterComponent,
     NavbarComponent,
     FilterComponent,
-    LoginComponent
+    LoginPageComponent,
+    RegistrationPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
