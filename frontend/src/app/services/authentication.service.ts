@@ -63,7 +63,6 @@ export class AuthenticationService implements OnInit {
   }
 
   getCurrentUser(): AuthUser | undefined {
-    console.log('start AuthenticationService')
     const token = localStorage.getItem('jwtToken');
     if (token) {
       const authUser = this.decodeJwt(token);

@@ -5,29 +5,27 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { tap } from 'rxjs/internal/operators/tap';
 import { Login } from 'src/app/models/auth/login';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { AuthUser } from 'src/app/models/auth/auth-user';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent implements OnInit, OnDestroy{
+export class LoginPageComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   errorMessage: string = '';
   currentUser: AuthUser | undefined;
-  private subscription: Subscription = new  Subscription()
+  private subscription: Subscription = new Subscription()
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
-    private location: Location,
-    private router: Router
+    private router: Router,
   ) {
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -45,7 +43,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
       this.subscription.unsubscribe();
     }
   }
-  
+
   get email() {
     return this.loginForm.get('email');
   }
@@ -62,7 +60,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
       };
 
       this.subscription = this.authService.login(user).pipe(
-        tap(_ => this.location.back()),
+        tap(_ => this.router.navigate(['/'])),
         catchError(error => {
           this.errorMessage = error;
           return of(null);
@@ -70,7 +68,8 @@ export class LoginPageComponent implements OnInit, OnDestroy{
       ).subscribe();
     }
   }
-  logout(){
+
+  logout() {
     this.authService.logout();
   }
 }

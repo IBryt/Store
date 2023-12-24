@@ -17,26 +17,16 @@ export class ProductService {
 
   getProducts(params: Params): Observable<Product[]> {
     const url = `${this.baseUrl}/api/products`;
-   // this.removeUndefinedParams(params);
     return this.http.get<Product[]>(url, { params });
   }
 
   getPagesCount(params: Params): Observable<number> {
     const url = `${this.baseUrl}/api/products/pagescount`;
-   // this.removeUndefinedParams(params);
     return this.http.get<number>(url, { params });
   }
 
   getProductById(id: number): Observable<Product> {
     const url = `${this.baseUrl}/api/products/${id}`;
     return this.http.get<Product>(url);
-  }
-
-  private removeUndefinedParams(obj: Params) {
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key) && obj[key] === undefined) {
-        delete obj[key];
-      }
-    }
   }
 }

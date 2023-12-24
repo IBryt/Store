@@ -2,9 +2,6 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto d-flex">
             <li class="nav-item">
-                <span class="nav-link">Main</span>
-            </li>
-            <li class="nav-item">
                 <div *ngIf="authUser === undefined; else elseBlock">
                     <i routerLink="login" class="fas fa-sign-in-alt nav-link"></i>
                 </div>

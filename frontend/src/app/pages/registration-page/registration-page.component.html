@@ -1,17 +1,17 @@
 <div class="container">
     <h2>Registration</h2>
     <div *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</div>
-    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" autocomplete="on">
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" id="name" class="form-control" formControlName="name">
+            <input type="text" id="name" class="form-control" formControlName="name" autocomplete="name">
             <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="text-danger">
                 <div *ngIf="name?.errors?.hasOwnProperty('required')">Name is required.</div>
             </div>
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="text" id="email" class="form-control" formControlName="email">
+            <input type="email" id="email" class="form-control" formControlName="email" autocomplete="email">
             <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
                 <div *ngIf="email?.errors?.hasOwnProperty('required')">Email is required.</div>
                 <div *ngIf="email?.errors?.hasOwnProperty('email')">Invalid email format.</div>
@@ -19,7 +19,8 @@
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" class="form-control" formControlName="password">
+            <input type="password" id="password" class="form-control" formControlName="password"
+                autocomplete="password">
             <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="text-danger">
                 <div *ngIf="password?.errors?.hasOwnProperty('required')">Password is required.</div>
                 <div *ngIf="password?.errors?.hasOwnProperty('minlength')">Password must be at least 6 characters long.
