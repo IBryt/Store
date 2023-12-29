@@ -12,7 +12,7 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     private const int PageSize = 12;
     public ProductRepository(AppDbContext dbContext) : base(dbContext) { }
 
-    public async Task<int> GetCountAsync(ProductPagingOptions options)
+    public async Task<int> GetCountPageAsync(ProductPagingOptions options)
     {
         var count = options.CategoryId == null
             ? await _dbSet.CountAsync()

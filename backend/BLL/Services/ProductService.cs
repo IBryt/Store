@@ -20,7 +20,7 @@ public ProductService(
 public Task<int> GetCountAsync(FilterProductModel filter)
 {
         var options = _mapper.Map<ProductPagingOptions>(filter);
-        return _unitOfWork.ProductRepository.GetCountAsync(options);
+        return _unitOfWork.ProductRepository.GetCountPageAsync(options);
 }
 
     public async Task<IEnumerable<ProductModel>> GetProductsAsync(FilterProductModel filter)
