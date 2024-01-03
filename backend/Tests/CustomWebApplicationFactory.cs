@@ -77,16 +77,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
 
         public Task<IdentityUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            var user = _users.Find(u => u.Id == userId)
-                ?? throw new InvalidOperationException($"User with Id '{userId}' not found.");
-
+            var user = _users.Find(u => u.Id == userId);
             return Task.FromResult(user);
         }
 
         public Task<IdentityUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            var user = _users.Find(u => u.NormalizedUserName == normalizedUserName)
-                ?? throw new InvalidOperationException($"User with normalized username '{normalizedUserName}' not found.");
+            var user = _users.Find(u => u.NormalizedUserName == normalizedUserName);
             return Task.FromResult(user);
         }
 
@@ -166,9 +163,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
 
         public Task<IdentityUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
         {
-            var user = _users.Find(u => u.NormalizedEmail == normalizedEmail)
-             ?? throw new InvalidOperationException($"User with normalized email '{normalizedEmail}' not found.");
-
+            var user = _users.Find(u => u.NormalizedEmail == normalizedEmail);
             return Task.FromResult(user);
         }
 

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Business.Services.Abstract;
-using FluentValidation;
 using IgorBryt.Store.BLL.Interfaces;
 using IgorBryt.Store.BLL.Models;
 using IgorBryt.Store.DAL.Entities;
@@ -12,9 +11,8 @@ public class ProductCategoryService : BaseCrud<ProductCategoryModel, ProductCate
 {
     public ProductCategoryService(
         IUnitOfWork unitOfWork,
-        IMapper mapper,
-        IValidator<ProductCategoryModel> validator)
-        : base(unitOfWork, mapper, validator, unitOfWork.ProductCategoryRepository) { }
+        IMapper mapper)
+        : base(unitOfWork, mapper, unitOfWork.ProductCategoryRepository) { }
 
     public async Task<IEnumerable<ProductCategoryModel>> GetAllAsync()
     {
