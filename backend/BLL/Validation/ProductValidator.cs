@@ -7,13 +7,17 @@ public class ProductValidator : AbstractValidator<ProductModel>
 {
     public ProductValidator()
     {
-        RuleFor(x => x.ProductName)
+        RuleFor(x => x.Description)
             .NotEmpty()
             .WithMessage($"The property \"{nameof(ProductModel.Description)}\" cannot be empty");
 
         RuleFor(x => x.ProductName)
             .NotEmpty()
             .WithMessage($"The property \"{nameof(ProductModel.ProductName)}\" cannot be empty");
+
+        RuleFor(x => x.CategoryName)
+           .NotEmpty()
+           .WithMessage($"The property \"{nameof(ProductModel.CategoryName)}\" cannot be empty");
 
         RuleFor(x => x.Price)
             .Must((p) => p > 0)

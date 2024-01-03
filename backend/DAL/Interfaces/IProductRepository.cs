@@ -6,6 +6,6 @@ namespace IgorBryt.Store.DAL.Interfaces;
 public interface IProductRepository : IRepository<Product>
 {
     Task<IEnumerable<Product>> GetProductsWithDetailsAsync(ProductPagingOptions options);
-    Task<int> GetCountAsync(ProductPagingOptions options);
+    Task<int> GetCountPageAsync(ProductPagingOptions options);
     Task<Product?> GetProductWithDetailsByIdAsync(int id);
 }

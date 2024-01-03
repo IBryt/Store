@@ -13,8 +13,7 @@ services:
     networks:
         - back
     environment:
-        ASPNETCORE_ENVIRONMENT: 'Development'
-        ConnectionStrings__ThreadDBConnection: 'Server=sql_server;Database=Store;User ID=SA;Password=MySecretPassword!'
+        ASPNETCORE_ENVIRONMENT: 'Production'
 
   frontend:
     depends_on:
