@@ -87,6 +87,7 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseCors("AllowSpecificOrigin");
 
         if (env.IsDevelopment())
         {
@@ -108,7 +109,7 @@ public class Startup
 
         app.UseStaticFiles();
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
 
         app.UseCors("FrontEnd");
         app.UseRouting();

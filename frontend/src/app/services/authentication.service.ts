@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Register } from '../models/auth/register';
 import { Observable, Subject, catchError, map, throwError } from 'rxjs';
@@ -7,7 +7,7 @@ import { environment } from '../environments/environment';
 import { Login } from '../models/auth/login';
 import { JwtAuth } from '../models/auth/jwt-auth';
 import { AuthUser } from '../models/auth/auth-user';
-
+import { jwtDecode } from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,7 @@ export class AuthenticationService implements OnInit {
         map(jwt => {
           if (jwt && jwt.token && jwt.result) {
             localStorage.setItem('jwtToken', jwt.token);
-            const authUser = this.decodeJwt(jwt.token);
+            const authUser = jwtDecode<AuthUser>(jwt.token);
             this.authUserSubject.next(authUser);
             return authUser;
           } else {
@@ -65,28 +65,9 @@ export class AuthenticationService implements OnInit {
   getCurrentUser(): AuthUser | undefined {
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      const authUser = this.decodeJwt(token);
+      const authUser = jwtDecode<AuthUser>(token);
       return authUser;
     }
     return undefined
-  }
-  private decodeJwt(token: string): AuthUser {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
-    );
-
-    const decodedPayload = JSON.parse(jsonPayload);
-
-    const authUser: AuthUser = {
-      name: decodedPayload.name,
-      email: decodedPayload.email
-    };
-
-    return authUser;
   }
 }
