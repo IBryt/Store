@@ -16,14 +16,15 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.ProductName)
             .IsRequired()
             .IsUnicode()
-            .HasMaxLength(100);
+            .HasMaxLength(250);
 
         builder.Property(p => p.Description)
             .IsRequired()
             .IsUnicode()
-            .HasMaxLength(500);
+            .HasMaxLength(1000);
 
         builder.Property(p => p.ImageUrl)
+           .IsUnicode(false)
            .HasMaxLength(50);
 
         builder.Property(p => p.Price)

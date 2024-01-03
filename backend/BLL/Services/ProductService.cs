@@ -17,11 +17,11 @@ public ProductService(
     IValidator<ProductModel> validator)
     : base(unitOfWork, mapper, validator, unitOfWork.ProductRepository) { }
 
-public Task<int> GetCountAsync(FilterProductModel filter)
-{
-        var options = _mapper.Map<ProductPagingOptions>(filter);
-        return _unitOfWork.ProductRepository.GetCountPageAsync(options);
-}
+    public Task<int> GetCountPageAsync(FilterProductModel filter)
+    {
+            var options = _mapper.Map<ProductPagingOptions>(filter);
+            return _unitOfWork.ProductRepository.GetCountPageAsync(options);
+    }
 
     public async Task<IEnumerable<ProductModel>> GetProductsAsync(FilterProductModel filter)
     {

@@ -9,8 +9,6 @@ namespace IgorBryt.Store.Tests.DAL;
 [TestFixture]
 public class ProductRepositoryTests
 {
-
-
     [TestCase(null, null, 12)]
     [TestCase(null, 2, 1)]
     [TestCase(1, null, 2)]

@@ -34,8 +34,6 @@ public class IRepositoryTests
 
         var product = await productRepository.GetByIdAsync(id);
 
-        var expected = UnitTestHelper.ExpectedProducts.FirstOrDefault(x => x.Id == id);
-
         Assert.That(product, Is.EqualTo(null), message: "GetByIdAsync method works incorrect");
     }
 
@@ -84,23 +82,21 @@ public class IRepositoryTests
     [Test]
     public async Task ProductRepository_Update_UpdatesEntity()
     {
+        var expected = GetProduct();
         using var context = new AppDbContext(UnitTestHelper.GetUnitTestDbOptions());
 
         var productRepository = new ProductRepository(context);
-        var product = new Product
-        {
-            Id = 1,
-            ProductCategoryId = 1,
-            ProductName = "test name",
-            Price = 30,
-            Description = "new desc",
-            ImageUrl= "new imageUrl",
-        };
+        var product = GetProduct();
 
         productRepository.Update(product);
         await context.SaveChangesAsync();
 
-        Assert.That(product, Is.EqualTo(new Product
+        Assert.That(product, Is.EqualTo(expected).Using(new ProductEqualityComparer()), message: "Update method works incorrect");
+    }
+
+    private Product GetProduct()
+    {
+        return new Product
         {
             Id = 1,
             ProductCategoryId = 1,
@@ -108,6 +104,6 @@ public class IRepositoryTests
             Price = 30,
             Description = "new desc",
             ImageUrl = "new imageUrl",
-        }).Using(new ProductEqualityComparer()), message: "Update method works incorrect");
+        };
     }
 }

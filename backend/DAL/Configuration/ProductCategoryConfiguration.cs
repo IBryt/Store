@@ -12,6 +12,7 @@ public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCate
 
         builder.Property(pc => pc.CategoryName)
             .IsRequired()
+            .IsUnicode()
             .HasMaxLength(100);
     }
 }

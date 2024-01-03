@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
 using IgorBryt.Store.BLL.Interfaces;
 using IgorBryt.Store.BLL.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgorBryt.Store.WebAPI.Controllers;
@@ -31,7 +29,7 @@ public class ProductsController : Controller
     [HttpGet("pagesCount")]
     public async Task<IActionResult> GetPagesCount([FromQuery] FilterProductModel filter)
     {
-        var count = await _productService.GetCountAsync(filter);
+        var count = await _productService.GetCountPageAsync(filter);
         return Ok(count);
     }
 
