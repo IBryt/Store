@@ -18,9 +18,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         _productCategoryRepository = productCategoryRepository;
     }
 
-    public IProductRepository ProductRepository => _productRepository;
+    public virtual IProductRepository ProductRepository => _productRepository;
 
-    public IProductCategoryRepository ProductCategoryRepository => _productCategoryRepository;
+    public virtual IProductCategoryRepository ProductCategoryRepository => _productCategoryRepository;
 
     public async Task SaveAsync()
     {
