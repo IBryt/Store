@@ -1,8 +1,8 @@
 ﻿using Business.Validation;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using IgorBryt.Store.BLL;
 using IgorBryt.Store.BLL.Interfaces;
-using IgorBryt.Store.BLL.Models;
 using IgorBryt.Store.BLL.Services;
 using IgorBryt.Store.BLL.Validation;
 using IgorBryt.Store.DAL.Data;
@@ -31,7 +31,9 @@ public class Startup
         services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
         services.AddSingleton<JwtConfig>();
 
-        services.AddControllers();
+        services.AddControllers()
+            .AddFluentValidation();
+
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
@@ -136,7 +138,7 @@ public class Startup
 
     private static void AddValidators(IServiceCollection services)
     {
-        services.AddTransient<IValidator<ProductCategoryModel>, ProductCategoryValidator>();
-        services.AddTransient<IValidator<ProductModel>, ProductValidator>();
+        services.AddValidatorsFromAssemblyContaining<ProductValidator>();
+        services.AddValidatorsFromAssemblyContaining<ProductCategoryValidator>();
     }
 }

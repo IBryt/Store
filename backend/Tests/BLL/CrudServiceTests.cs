@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using FluentValidation;
 using IgorBryt.Store.BLL.Models;
 using IgorBryt.Store.BLL.Services;
 using IgorBryt.Store.DAL.Entities;
@@ -22,7 +21,7 @@ public class CrudServiceTests
             .Setup(x => x.ProductRepository.GetByIdAsync(It.IsAny<int>()))
             .ReturnsAsync(UnitTestHelper.ExpectedProducts.FirstOrDefault(x => x.Id == id));
 
-        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile(), new InlineValidator<ProductModel>());
+        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
 
         var actual = await productService.GetByIdAsync(id);
@@ -36,7 +35,7 @@ public class CrudServiceTests
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         mockUnitOfWork.Setup(m => m.ProductRepository.AddAsync(It.IsAny<Product>()));
 
-        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile(), new InlineValidator<ProductModel>());
+        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
         var product = new ProductModel { Id = 124, ProductName = "phone", ProductCategoryId = 1, Price = 29.00m, Description = "Description" };
 
         await productService.AddAsync(product);
@@ -51,7 +50,7 @@ public class CrudServiceTests
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         mockUnitOfWork.Setup(m => m.ProductRepository.Update(It.IsAny<Product>()));
 
-        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile(), new InlineValidator<ProductModel>());
+        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
         var product = new ProductModel { Id = 92, ProductName = "Cabrales", ProductCategoryId = 1, CategoryName = "Household", Price = 29.00m, Description = "Description" };
 
         await productService.UpdateAsync(product);
@@ -66,7 +65,7 @@ public class CrudServiceTests
     {
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         mockUnitOfWork.Setup(m => m.ProductRepository.DeleteByIdAsync(It.IsAny<int>()));
-        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile(), new InlineValidator<ProductModel>());
+        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
         await productService.DeleteAsync(id);
 
