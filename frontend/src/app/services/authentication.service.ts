@@ -62,6 +62,11 @@ export class AuthenticationService implements OnInit {
     this.authUserSubject.next(undefined);
   }
 
+  isAuthenticated(): boolean
+  {
+    return this.getCurrentUser() == undefined ? false : true;
+  }
+
   getCurrentUser(): AuthUser | undefined {
     const token = localStorage.getItem('jwtToken');
     if (token) {

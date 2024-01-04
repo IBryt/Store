@@ -36,7 +36,6 @@ export class ProductCatalogPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.productService.getProducts(params).subscribe((p) => {
         this.products = p;
-        console.log(p);
       })
     );
   }
