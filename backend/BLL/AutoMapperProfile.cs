@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using IgorBryt.Store.BLL.Models;
-using IgorBryt.Store.DAL.Data.Common;
 using IgorBryt.Store.DAL.Entities;
 
 namespace IgorBryt.Store.BLL;
@@ -17,7 +16,5 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductCategory, ProductCategoryModel>()
             .ForMember(pcm => pcm.ProductIds, pc => pc.MapFrom(x => x.Products.Select(x => x.Id)))
             .ReverseMap();
-
-        CreateMap<FilterProductModel, ProductPagingOptions>();
     }
 }

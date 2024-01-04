@@ -109,8 +109,6 @@ public class Startup
 
         app.UseStaticFiles();
 
-        //app.UseHttpsRedirection();
-
         app.UseCors("FrontEnd");
         app.UseRouting();
 
