@@ -40,4 +40,12 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
                .Include(p => p.Category)
                .FirstOrDefaultAsync(p => p.Id == id);
     }
+
+    public async Task<IEnumerable<Product>> GetProductWithDetailsByIdsAsync(int[] ids)
+    {
+        return await _dbSet
+            .Include(p => p.Category)
+            .Where(p => ids.Contains(p.Id))
+            .ToListAsync();
+    }
 }

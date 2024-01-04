@@ -1,7 +1,5 @@
-﻿using Business.Validation;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentValidation;
-using IgorBryt.Store.BLL;
 using IgorBryt.Store.BLL.Models;
 using IgorBryt.Store.BLL.Services;
 using IgorBryt.Store.DAL.Data;
@@ -29,47 +27,6 @@ public class ProductServiceTests
     {
         _appDbContext.Dispose();
     }
-
-    [Test]
-    public async Task ProductService_AddAsync_ThrowsStoreExceptionWithEmptyProductName()
-    {
-        var product = new ProductModel { Id = 124, ProductName = "", ProductCategoryId = 1, Price = 29.00m, Description = "Description" };
-
-        Func<Task> act = async () => await _productService.AddAsync(product);
-
-        await act.Should().ThrowAsync<StoreException>();
-    }
-
-    [Test]
-    public async Task ProductService_AddAsync_ThrowsStoreExceptionIfPriceIsNegative()
-    {
-        var product = new ProductModel { Id = 124, ProductName = "ProductName", ProductCategoryId = 1, Price = -29.00m, Description = "Description" };
-
-        Func<Task> act = async () => await _productService.AddAsync(product);
-
-        await act.Should().ThrowAsync<StoreException>();
-    }
-
-    [Test]
-    public async Task ProductService_AddCategoryAsync_ThrowsStoreExceptionWithEmptyCategoryName()
-    {
-        var product = new ProductModel { Id = 124, CategoryName = "", ProductCategoryId = 1, Price = -29.00m, Description = "Description" };
-
-        Func<Task> act = async () => await _productService.AddAsync(product);
-
-        await act.Should().ThrowAsync<StoreException>();
-    }
-
-    [Test]
-    public async Task ProductService_AddCategoryAsync_ThrowsStoreExceptionWithEmptyDescription()
-    {
-        var product = new ProductModel { Id = 124, CategoryName = "", ProductCategoryId = 1, Price = -29.00m, Description = "" };
-
-        Func<Task> act = async () => await _productService.AddAsync(product);
-
-        await act.Should().ThrowAsync<StoreException>();
-    }
-
 
     [TestCase(1, 1)]
     [TestCase(null, 2)]
@@ -100,7 +57,7 @@ public class ProductServiceTests
             expected = expected.Skip(skip);
         }
 
-        var filterModel = new FilterProductModel { CategoryId = CategoryId, Page = page};
+        var filterModel = new FilterProductModel { CategoryId = CategoryId, Page = page };
         var actual = await _productService.GetProductsAsync(filterModel);
 
         actual.Should().BeEquivalentTo(expected.Take(12));
@@ -119,12 +76,23 @@ public class ProductServiceTests
         actual.Should().BeEquivalentTo(expected);
     }
 
+    [Test]
+    public async Task ProductService_GetProductWithDetailsByIdsAsync_Returns_ProductModel()
+    {
+        var ids = new int[] { 4, 7 };
+        var expected = UnitTestHelper.ExpectedProductModelsWithCategory.Where(p => ids.Contains(p.Id));
+
+        var actual = await _productService.GetProductWithDetailsByIdsAsync(ids);
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
     private ProductService GetProductService()
     {
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         mockUnitOfWork.Setup(u => u.ProductRepository).Returns(new ProductRepository(_appDbContext));
 
-        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile(), new ProductValidator());
+        var productService = new ProductService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
         return productService;
     }

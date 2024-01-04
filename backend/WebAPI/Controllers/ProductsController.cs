@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Business.Validation;
+using FluentValidation;
 using IgorBryt.Store.BLL.Interfaces;
 using IgorBryt.Store.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +11,10 @@ namespace IgorBryt.Store.WebAPI.Controllers;
 //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ProductsController : Controller
 {
-    private readonly IValidator<ProductModel> _productValidator;
     private readonly IProductService _productService;
 
     public ProductsController(IValidator<ProductModel> productValidator, IProductService productService)
     {
-        _productValidator = productValidator;
         _productService = productService;
     }
 
@@ -34,9 +33,23 @@ public class ProductsController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> getProductById(int id)
+    public async Task<IActionResult> GetProductById(int id)
     {
         var product = await _productService.GetProductWithDetailsByIdAsync(id);
         return Ok(product);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GetProductById([FromBody] ProductModel value)
+    {
+        await _productService.AddAsync(value);
+        return Ok(value);
+    }
+
+    [HttpPost("ids")]
+    public async Task<IActionResult> GetProductsByIds([FromBody] int[] ids)
+    {
+        var products = await _productService.GetProductWithDetailsByIdsAsync(ids);
+        return Ok(products);
     }
 }

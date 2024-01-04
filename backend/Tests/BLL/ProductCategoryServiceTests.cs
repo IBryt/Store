@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using IgorBryt.Store.BLL.Services;
-using IgorBryt.Store.BLL.Validation;
 using IgorBryt.Store.DAL.Data;
 using IgorBryt.Store.DAL.Interfaces;
 using IgorBryt.Store.DAL.Repositories;
@@ -38,7 +37,7 @@ public class ProductCategoryServiceTests
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         mockUnitOfWork.Setup(u => u.ProductCategoryRepository).Returns(new ProductCategoryRepository(_appDbContext));
 
-        var productCategoryService = new ProductCategoryService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile(), new ProductCategoryValidator());
+        var productCategoryService = new ProductCategoryService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
         return productCategoryService;
     }

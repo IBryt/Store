@@ -29,4 +29,8 @@ export class ProductService {
     const url = `${this.baseUrl}/api/products/${id}`;
     return this.http.get<Product>(url);
   }
+  getProductByIds(ids: number[]): Observable<Product[]> {
+    const url = `${this.baseUrl}/api/products/ids`;
+    return this.http.post<Product[]>(url, ids);
+  }
 }

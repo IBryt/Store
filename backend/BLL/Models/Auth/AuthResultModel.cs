@@ -2,7 +2,7 @@
 
 public class AuthResultModel
 {
-    public string Token { get; set; }
+    public string? Token { get; set; }
     public bool Result { get; set; }
-    public IEnumerable<String> Errors { get; set; }
+    public IEnumerable<String>? Errors { get; set; }
 }

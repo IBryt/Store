@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Business.Services.Abstract;
-using FluentValidation;
 using IgorBryt.Store.BLL.Interfaces;
 using IgorBryt.Store.BLL.Models;
 using IgorBryt.Store.DAL.Data.Common;
@@ -13,9 +12,8 @@ public class ProductService : BaseCrud<ProductModel, Product>, IProductService
 {
 public ProductService(
     IUnitOfWork unitOfWork,
-    IMapper mapper,
-    IValidator<ProductModel> validator)
-    : base(unitOfWork, mapper, validator, unitOfWork.ProductRepository) { }
+    IMapper mapper)
+    : base(unitOfWork, mapper, unitOfWork.ProductRepository) { }
 
     public Task<int> GetCountPageAsync(FilterProductModel filter)
     {
@@ -40,5 +38,13 @@ public ProductService(
             throw new StoreException($"The object {typeof(Product)} cannot be null");
         }
         return _mapper.Map<ProductModel>(entity);
+    }
+
+    public async Task<IEnumerable<ProductModel>> GetProductWithDetailsByIdsAsync(int[] ids)
+    {
+        var products = await _unitOfWork.ProductRepository.GetProductWithDetailsByIdsAsync(ids);
+        return products
+           .Select(x => _mapper.Map<ProductModel>(x))
+           .AsEnumerable();
     }
 }

@@ -9,4 +9,5 @@ public interface IProductService : ICrud<ProductModel>
     Task<int> GetCountPageAsync(FilterProductModel filter);
     Task<IEnumerable<ProductModel>> GetProductsAsync(FilterProductModel filter);
     Task<ProductModel?> GetProductWithDetailsByIdAsync(int id);
+    Task<IEnumerable<ProductModel>> GetProductWithDetailsByIdsAsync(int[] ids);
 }
