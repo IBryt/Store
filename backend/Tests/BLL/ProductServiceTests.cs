@@ -76,6 +76,17 @@ public class ProductServiceTests
         actual.Should().BeEquivalentTo(expected);
     }
 
+    [Test]
+    public async Task ProductService_GetProductWithDetailsByIdsAsync_Returns_ProductModel()
+    {
+        var ids = new int[] { 4, 7 };
+        var expected = UnitTestHelper.ExpectedProductModelsWithCategory.Where(p => ids.Contains(p.Id));
+
+        var actual = await _productService.GetProductWithDetailsByIdsAsync(ids);
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
     private ProductService GetProductService()
     {
         var mockUnitOfWork = new Mock<IUnitOfWork>();

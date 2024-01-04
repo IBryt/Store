@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { CartItem } from 'src/app/models/cart/cart-item';
-import { Product } from 'src/app/models/product/product';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/products.service';
 
@@ -10,8 +9,8 @@ import { ProductService } from 'src/app/services/products.service';
   templateUrl: './cart-page.component.html',
   styleUrls: ['./cart-page.component.css']
 })
-export class CartPageComponent implements OnInit {
-
+export class CartPageComponent implements OnInit, OnDestroy {
+  private subProductService: Subscription = new Subscription();
   items: CartItem[] = [];
 
   constructor(
@@ -19,28 +18,42 @@ export class CartPageComponent implements OnInit {
     private productService: ProductService,
   ) { }
 
+
   ngOnInit(): void {
     this.GetCartItems();
   }
 
-  GetCartItems(): void {
+  ngOnDestroy(): void {
+    this.subProductService.unsubscribe();
+  }
+
+  private GetCartItems(): void {
     const cart = this.cartService.getCartItems();
-    //const ids = Array.from(cart.keys());
-    const cartItemsArray: CartItem[] = [];
+    const ids = Array.from(cart.keys());
 
-    cart.forEach((qty, productId) => {
-      const product$: Observable<Product> = this.productService.getProductById(productId);
+    if (ids.length === 0) {
+      this.items = [];
+      return;
+    }
 
-      product$.subscribe(
-        (product: Product) => {
-          cartItemsArray.push({ product, qty });
-        },
-        (error) => {
-          console.error(`Error fetching product with ID ${productId}: ${error}`);
-        }
-      );
-    });
-    this.items = cartItemsArray;
+    this.subProductService.add(
+      this.productService.getProductByIds(ids)
+        .subscribe((products) => {
+          const cartItemsArray: CartItem[] = [];
+
+          cart.forEach((qty, productId, index) => {
+            const product = products.find(p => p.id === productId);
+  
+            if (product) {
+              cartItemsArray.push({ product, qty });
+            } else {
+              console.error(`Product with ID ${productId} not found.`);
+            }
+          });
+  
+          this.items = cartItemsArray;
+        })
+    )
   }
 
   decreaseQuantity(item: CartItem) {
@@ -60,7 +73,7 @@ export class CartPageComponent implements OnInit {
     this.updateCart();
   }
 
-  getTotalQuantity(): number{
+  getTotalQuantity(): number {
     return this.items.reduce((total, item) => total + item.qty * item.product.price, 0);
   }
 
@@ -73,3 +86,5 @@ export class CartPageComponent implements OnInit {
   }
 
 }
+
+

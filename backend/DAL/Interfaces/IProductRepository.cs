@@ -8,4 +8,5 @@ public interface IProductRepository : IRepository<Product>
     Task<IEnumerable<Product>> GetProductsWithDetailsAsync(ProductPagingOptions options);
     Task<int> GetCountPageAsync(ProductPagingOptions options);
     Task<Product?> GetProductWithDetailsByIdAsync(int id);
+    Task<IEnumerable<Product>> GetProductWithDetailsByIdsAsync(int[] ids);
 }
