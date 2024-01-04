@@ -5,6 +5,8 @@ import { ProductPageComponent } from './pages/product-page/product-page.componen
 import { ProductCatalogPageComponent } from './pages/product-catalog-page/product-catalog-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
+import { CartPageComponent } from './pages/cart-page/cart-page.component';
+import { AuthGuard } from './auth.quard';
 
 const routes: Routes = [
   {
@@ -14,6 +16,7 @@ const routes: Routes = [
       { path: 'products/:id', component: ProductPageComponent },
       { path: 'login', component: LoginPageComponent },
       { path: 'registration', component: RegistrationPageComponent },
+      { path: 'cart', component: CartPageComponent, canActivate: [AuthGuard] },
     ]
   }
 ];

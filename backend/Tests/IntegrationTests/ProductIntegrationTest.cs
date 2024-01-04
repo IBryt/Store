@@ -4,6 +4,7 @@ using IgorBryt.Store.BLL.Models;
 using Library.Tests.IntegrationTests;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using System.Text;
 
 namespace IgorBryt.Store.Tests.IntegrationTests;
 
@@ -73,6 +74,24 @@ public class ProductIntegrationTest
         httpResponse.EnsureSuccessStatusCode();
         var stringResponse = await httpResponse.Content.ReadAsStringAsync();
         var actual = JsonConvert.DeserializeObject<ProductModel>(stringResponse);
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public async Task ProductsController_getProductByIds_Returns_Products()
+    {
+        var ids = new int[] { 1, 4};
+
+        var expected = UnitTestHelper.ExpectedProductModelsWithCategory.Where(p => ids.Contains(p.Id));
+
+        var jsonIds = JsonConvert.SerializeObject(ids);
+        var content = new StringContent(jsonIds, Encoding.UTF8, "application/json");
+        var httpResponse = await _client.PostAsync($"{RequestUri}/ids", content);
+
+        httpResponse.EnsureSuccessStatusCode();
+        var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+        var actual = JsonConvert.DeserializeObject<IEnumerable<ProductModel>>(stringResponse);
 
         actual.Should().BeEquivalentTo(expected);
     }

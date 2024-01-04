@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Business.Validation;
+using FluentValidation;
 using IgorBryt.Store.BLL.Interfaces;
 using IgorBryt.Store.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -43,5 +44,12 @@ public class ProductsController : Controller
     {
         await _productService.AddAsync(value);
         return Ok(value);
+    }
+
+    [HttpPost("ids")]
+    public async Task<IActionResult> GetProductsByIds([FromBody] int[] ids)
+    {
+        var products = await _productService.GetProductWithDetailsByIdsAsync(ids);
+        return Ok(products);
     }
 }

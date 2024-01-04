@@ -48,4 +48,17 @@ public class ProductRepositoryTests
         var expected = UnitTestHelper.ExpectedProductsWithDetails().Single(p => p.Id == id);
         Assert.That(product, Is.EqualTo(expected).Using(new ProductEqualityComparer()), message: "GetProductWithDetailsByIdAsync method works incorrect");
     }
+
+    [Test]
+    public async Task ProductRepository_GetProductWithDetailsByIdsAsync_ReturnsProducts()
+    {
+        var ids = new int[] { 1, 3 };
+        var expected = UnitTestHelper.ExpectedProductsWithDetails().Where(p => ids.Contains(p.Id));
+        using var context = new AppDbContext(UnitTestHelper.GetUnitTestDbOptions());
+
+        var productRepository = new ProductRepository(context);
+
+        var products = await productRepository.GetProductWithDetailsByIdsAsync(ids);
+        Assert.That(products, Is.EqualTo(expected).Using(new ProductEqualityComparer()), message: "GetProductsWithDetailsAsync method works incorrect");
+    }
 }
